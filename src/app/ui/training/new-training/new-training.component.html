@@ -1,0 +1,21 @@
+<section class="new-training" fxLayout fxLayoutAlign="center">
+  <form 
+    [formGroup]="formGroup"
+    (ngSubmit)="onStartTraining()">
+    <mat-card fxFlex.lt-sm="100%" fxFlex="400px">
+        <mat-card-title>Time to start a workout!</mat-card-title>
+        <mat-card-content fxLayoutAlign="center">
+          <mat-form-field *ngIf="isExercisesAvailable">
+            <mat-select placeholder="Select Excercise" formControlName="excercise">
+              <mat-option *ngFor="let ex of availableExcercises" [value]="ex.id">{{ex.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-spinner *ngIf="!isExercisesAvailable"></mat-spinner>
+        </mat-card-content>
+        <mat-card-actions *ngIf="isExercisesAvailable">
+          <button *ngIf="availableExcercises" mat-button type="submit" [disabled]="formGroup.invalid">Start</button>
+          <button *ngIf="!availableExcercises" mat-button type="button" (click)="fetchExercises()">Fetch Exercises</button>
+        </mat-card-actions>
+    </mat-card>
+  </form>
+</section>

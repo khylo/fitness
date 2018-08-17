@@ -1,0 +1,8 @@
+<div>
+  <input type="text" [(ngModel)]="itemName" (keyup.enter)="onAdd()"/>
+  <button (click)="onAdd()" [disabled]="isDisabled" >Add</button>
+</div>
+<div> List of items</div>
+<span *ngIf="itemList.length==0"><i> - list empty - </i></span>
+
+<app-todo-item (isDeleted)="onDelete(item)" *ngFor="let item of itemList" [item]="item"></app-todo-item>

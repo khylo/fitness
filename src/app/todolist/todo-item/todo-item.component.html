@@ -1,0 +1,4 @@
+<article class="item"  [ngClass]="{done:item.isDone}">
+  <span (click)="toggleState()">{{item.name}}</span>
+  <span (click)="onDelete()">[del]</span>
+</article>

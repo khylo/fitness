@@ -1,0 +1,30 @@
+mat-form-field{
+    width:300px;
+}
+
+#container{
+    display: flex;
+}
+
+#containerCol{
+    display: flex;
+    flex-direction: column;
+}
+
+div{
+    /*width: 200px;*/
+    height: 200px;
+    flex: 1;
+}
+
+#child1{
+    background-color: red;
+}
+
+#child2{
+    background-color: blue;
+}
+
+#child3{
+    background-color:green;
+}

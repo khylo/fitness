@@ -1,0 +1,7 @@
+<section fxLayout="column" fxLayoutAlign="center center">
+  <h1>{{excerciseService.getRunningExcercise().name}}</h1>
+  <mat-progress-spinner mode="determinate" [value]="progress"></mat-progress-spinner>
+  <h1>{{progress}}%</h1>
+  <p>Keep going!</p>
+  <button mat-button color="accent" (click)="onStop()">Quit</button>
+</section>
