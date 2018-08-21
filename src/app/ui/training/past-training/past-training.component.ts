@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core'
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material'
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { ExcerciseService } from '../../../services/excercise.service';
 import { Excercise } from '../../../models/excercise.model';
-import {Subscription} from 'rxjs'
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-past-training',
@@ -12,17 +12,17 @@ import {Subscription} from 'rxjs'
 export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = ['date', 'name', 'duration', 'calories', 'state'];
   dataSource = new MatTableDataSource<Excercise>();
-  finishedExcerciseSubscription :Subscription
+  finishedExcerciseSubscription: Subscription;
 
-  @ViewChild(MatSort) sort : MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private excerciseService: ExcerciseService) {
   }
 
 
   ngOnInit() {
-    //console.log("PastTrainingComp "+this.excerciseService.getCompletedExcercises().length);
+    // console.log('PastTrainingComp '+this.excerciseService.getCompletedExcercises().length);
     this.finishedExcerciseSubscription = this.excerciseService.finishedExcercisesChanged.subscribe( (excercises: Excercise[]) => {
       this.dataSource.data = excercises;
     });
@@ -30,17 +30,19 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.finishedExcerciseSubscription.unsubscribe()
+    if (this.finishedExcerciseSubscription) {
+      this.finishedExcerciseSubscription.unsubscribe();
+    }
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  doFilter(filterValue: string){
-    //console.log("filtering on "+filterValue)
-    this.dataSource.filter=filterValue.trim().toLowerCase();
+  doFilter(filterValue: string) {
+    // console.log('filtering on '+filterValue)
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }

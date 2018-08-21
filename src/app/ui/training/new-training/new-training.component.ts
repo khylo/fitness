@@ -12,9 +12,9 @@ import { Observable, Subscription } from 'rxjs';
 export class NewTrainingComponent implements OnInit, OnDestroy {
 
   availableExcercises: Excercise[];
-  excercisesSubscription : Subscription
+  excercisesSubscription: Subscription;
   isExercisesAvailable = false;
-  formGroup :FormGroup;
+  formGroup: FormGroup;
 
   constructor(private excerciseService: ExcerciseService) { }
 
@@ -32,22 +32,24 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
           this.availableExcercises = null;
     });
     this.fetchExercises();
-    //console.log("Available excercises")
-    //console.log(this.availableExcercises)
+    // console.log("Available excercises")
+    // console.log(this.availableExcercises)
   }
 
-  fetchExercises(){
+  fetchExercises() {
     this.isExercisesAvailable = false;
     this.excerciseService.fetchAvailableExcercises();
   }
 
-  ngOnDestroy(){
-    this.excercisesSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.excercisesSubscription) {
+      this.excercisesSubscription.unsubscribe();
+    }
   }
 
   onStartTraining() {
-    //console.log("Starting training "+this.formGroup.value.excercise)
-    //console.log(this.formGroup)
+    // console.log("Starting training "+this.formGroup.value.excercise)
+    // console.log(this.formGroup)
     this.excerciseService.startExcercise(this.formGroup.value.excercise);
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService} from '../../../services/auth.service';
 import { UIService } from '../../../services/ui.service';
-import { Subscription } from 'rxjs'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs'
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-  loggingIn = false
+  loggingIn = false;
   loadingStateChangedSubscription: Subscription;
 
-  constructor(private authService: AuthService, private uiService:UIService) { }
+  constructor(private authService: AuthService, private uiService: UIService) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -24,16 +24,18 @@ export class LoginComponent implements OnInit, OnDestroy {
         {validators: [Validators.required]} )
     });
     this.loadingStateChangedSubscription = this.uiService.loadingStateChanged.subscribe( state => {
-        this.loggingIn=state;
-    })
+        this.loggingIn = state;
+    });
   }
 
-  ngOnDestroy(){
-    this.loadingStateChangedSubscription.unsubscribe()
+  ngOnDestroy() {
+    if (this.loadingStateChangedSubscription) {
+      this.loadingStateChangedSubscription.unsubscribe();
+    }
   }
 
   onSubmit() {
-    //console.log(this.loginForm);
+    // console.log(this.loginForm);
     this.loggingIn = true;
     this.authService.login({
       email: this.loginForm.value.email,

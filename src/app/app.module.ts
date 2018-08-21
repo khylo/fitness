@@ -9,13 +9,10 @@ import { HomeComponent } from './ui/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SignupComponent } from './ui/auth/signup/signup.component';
 import { LoginComponent } from './ui/auth/login/login.component';
-import { TrainingComponent } from './ui/training/training.component';
-import { NewTrainingComponent } from './ui/training/new-training/new-training.component';
-import { PastTrainingComponent } from './ui/training/past-training/past-training.component';
-import { CurrentTrainingComponent } from './ui/training/current-training/current-training.component';
-import { StopTrainingComponent } from './ui/training/current-training/stop-training.component';
+import { TrainingModule} from './training.module'
 
 //Auth
+import { AuthModule } from './auth.module'
 import { AuthService} from './services/auth.service'
 import { UIService} from './services/ui.service'
 
@@ -44,13 +41,13 @@ import { environment } from '../environments/environment';
     HomeComponent,
     SignupComponent,
     LoginComponent,
-    TrainingComponent,
-    NewTrainingComponent,
-    StopTrainingComponent,
-    PastTrainingComponent,
+    //TrainingComponent,
+    //NewTrainingComponent,
+    //StopTrainingComponent,
+    //PastTrainingComponent,
     HeaderComponent,
     SidenavListComponent,
-    CurrentTrainingComponent
+    //CurrentTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -63,9 +60,10 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule,
+    TrainingModule
   ],
   providers: [AuthService, ExcerciseService, UIService],
   bootstrap: [AppComponent],
-  entryComponents: [StopTrainingComponent] // Use this if we create compoenent programatically (not by selector or routing) N.B. Also in import
+  //entryComponents: [StopTrainingComponent] // Use this if we create compoenent programatically (not by selector or routing) N.B. Also in import
 })
 export class AppModule { }
