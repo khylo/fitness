@@ -42,4 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password
     });
   }
+
+  loginGoogle() {
+    this.authService.loginWithGoogle();
+  }
 }

@@ -3,14 +3,16 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
-import {Subscription} from 'rxjs';
-import {UIService} from './ui.service';
+import { Subscription } from 'rxjs';
+import { UIService } from './ui.service';
 
 @Injectable()
 export class ExcerciseService {
   private static readonly FinishedExcercises = 'finishedExcercises';
+  private static readonly UserDb = 'user';
   private static readonly AvailableExcercises = 'availableExcercises';
 
+  private user: any;
   excerciseChanged = new Subject<Excercise>();
   excercisesChanged = new Subject<Excercise[]>();
   finishedExcercisesChanged = new Subject<Excercise[]>();
@@ -60,7 +62,7 @@ export class ExcerciseService {
   fetchFinishedExcercises() {
     this.fbSubs.push(
       this.db
-      .collection(ExcerciseService.FinishedExcercises)
+      .collection(this.getUserPath( ExcerciseService.FinishedExcercises))
       .valueChanges()
       .pipe( // only needed for rxjs 6.. No compat installed Don't forget to close ) at end of map and remove . before map
       map(docArray => {
@@ -135,9 +137,17 @@ export class ExcerciseService {
     });
   }
 
+  setUser(user: any) {
+    this.user = user;
+  }
+
+  private getUserPath(path: string) {
+    return ExcerciseService.UserDb + '/' + this.user.uid + '/' + path;
+  }
+
   private save(excercise: Excercise) {
     // console.log('Saving to finished excercise')
-    // console.log(excercise);
-    this.db.collection(ExcerciseService.FinishedExcercises).add(excercise);
+    console.log('Saving to ' + this.getUserPath( ExcerciseService.FinishedExcercises));
+    this.db.collection(this.getUserPath( ExcerciseService.FinishedExcercises)).add(excercise);
   }
 }

@@ -6,12 +6,15 @@ import { Router} from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ExcerciseService } from './excercise.service';
 import {UIService} from './ui.service';
+// Do not import from 'firebase' as you'd lose the tree shaking benefits
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
   private static Duration = 10000;
 
     private isAuthenticated = false;
+    private user: any;
     authChange = new Subject<boolean>();
 
 
@@ -28,15 +31,19 @@ export class AuthService {
     initAuthListener() {
         this.afAuth.authState.subscribe(user => {
             if (user) {
-                console.log('AF Login complete');
-                console.log(user);
+                // console.log('AF Login complete');
+                // console.log(user);
+                this.excerciseService.setUser(user);
                 this.isAuthenticated = true;
                 this.authChange.next(true);
+                this.user = user;
                 this.router.navigate(['/training']);
             } else {
+                this.excerciseService.setUser(null);
                 this.excerciseService.cancelSubscriptions();
                 this.isAuthenticated = false;
                 this.authChange.next(false);
+                this.user = null;
                 this.router.navigate(['/login']);
             }
         });
@@ -70,11 +77,22 @@ export class AuthService {
         });
     }
 
+    loginWithGoogle() {
+      this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }
+
     logout() {
         this.afAuth.auth.signOut();
     }
 
     isAuth() {
          return this.isAuthenticated;
+    }
+
+    getUser() {
+      if (this.isAuth()) {
+        return this.user;
+      }
+      return null;
     }
 }
