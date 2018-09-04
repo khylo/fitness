@@ -5,7 +5,7 @@ import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   // loadChildren: './ui/training/training.module#TrainingModule'},
-  { path: 'training',   loadChildren: './training.module#TrainingModule'}, // Note loadChildren = lazy loading.. authguard in training-route
+  { path: 'training',   loadChildren: './training.module#TrainingModule', canLoad: [AuthGuard]}, // lazy loading.. so use canLoad
   { path: '**',         component: HomeComponent       }
 ];
 
