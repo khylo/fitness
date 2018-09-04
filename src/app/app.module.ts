@@ -7,7 +7,6 @@ import { TodoListComponent } from './todolist/todolist.component';
 import { TodoItemComponent } from './todolist/todo-item/todo-item.component';
 import { HomeComponent } from './ui/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { TrainingModule} from './training.module';
 
 // Auth
 import { AuthModule } from './auth.module';
@@ -48,11 +47,10 @@ import { environment } from '../environments/environment';
     MaterialModule,
     FlexLayoutModule,
     AuthModule,
-    RoutingModule, // Put this last (of routing modules).. Otherwise child routes not picked up??
+    RoutingModule, // Put this behind AuthModule ..Otherwise child routes not picked up??
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule,
-    TrainingModule
+    AngularFireAuthModule
   ],
   providers: [AuthService, ExcerciseService, UIService],
   bootstrap: [AppComponent]

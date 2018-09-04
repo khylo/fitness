@@ -11,10 +11,11 @@ import { MaterialModule } from './material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import { StopTrainingComponent } from './ui/training/current-training/stop-training.component';
+import { TrainingRouteModule } from './training-route.module';
 
 @NgModule({
     declarations: [TrainingComponent, NewTrainingComponent, PastTrainingComponent, CurrentTrainingComponent, StopTrainingComponent],
-    imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, FlexLayoutModule],
+    imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, TrainingRouteModule],
     exports: [],
     // Use this if we create compoenent programatically (not by selector or routing) N.B. Also in import
     entryComponents: [StopTrainingComponent]

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from './ui/home/home.component';
-import {TrainingComponent} from './ui/training/training.component';
 import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: 'training',   component: TrainingComponent, canActivate: [AuthGuard]  },
+  // loadChildren: './ui/training/training.module#TrainingModule'},
+  { path: 'training',   loadChildren: './training.module#TrainingModule'}, // Note loadChildren = lazy loading.. authguard in training-route
   { path: '**',         component: HomeComponent       }
 ];
 
