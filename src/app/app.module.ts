@@ -29,6 +29,10 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
+// NgRx ... Redux for NG
+import { StoreModule} from '@ngrx/store';
+import { appReducer } from './app.reducer';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +54,8 @@ import { environment } from '../environments/environment';
     RoutingModule, // Put this behind AuthModule ..Otherwise child routes not picked up??
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    StoreModule.forRoot({ui: appReducer}) // Pass map of all reducers we are using
   ],
   providers: [AuthService, ExcerciseService, UIService],
   bootstrap: [AppComponent]

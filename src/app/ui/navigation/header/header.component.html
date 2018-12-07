@@ -3,8 +3,8 @@
         <button mat-icon-button (click)="onToggle()">
             <mat-icon>menu</mat-icon>
         </button>
-    </div>     
-    <div><a routerLink="/">LOGO</a></div>
+    </div>
+    <div><a routerLink="/">Ng Fitness</a></div>
     <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout class="navigation-items" fxLayoutGap="10px">
             <li><a routerLink="/">    <mat-icon>home</mat-icon>    </a> </li>
@@ -14,4 +14,4 @@
             <li *ngIf="isAuth" (click)="onLogout()"><a style="cursor: pointer">Logout</a></li>
         </ul>
     </div>
-</mat-toolbar> 
+</mat-toolbar>

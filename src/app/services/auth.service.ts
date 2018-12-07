@@ -8,6 +8,8 @@ import { ExcerciseService } from './excercise.service';
 import {UIService} from './ui.service';
 // Do not import from 'firebase' as you'd lose the tree shaking benefits
 import * as firebase from 'firebase/app';
+import { Store } from '@ngrx/store';
+import * as myReducer from '../app.reducer';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,8 @@ export class AuthService {
         private router: Router,
         private afAuth: AngularFireAuth,
         private excerciseService: ExcerciseService,
-        private uiService: UIService
+        private uiService: UIService,
+        private ngRxStore: Store<{ui: myReducer.State}>
         )      {    }
 
     /**
@@ -50,29 +53,35 @@ export class AuthService {
     }
 
     registerUser(authData: AuthData) {
-        this.uiService.loadingStateChanged.next(true);
+        //this.uiService.loadingStateChanged.next(true);
+        this.ngRxStore.dispatch({type:myReducer.UI_STATE_START_LOADING});
         this.afAuth.auth.createUserWithEmailAndPassword(
             authData.email,
             authData.password
         ).then(result => {
            console.log(result);
-           this.uiService.loadingStateChanged.next(false);
+           //this.uiService.loadingStateChanged.next(false);
+           this.ngRxStore.dispatch({type:myReducer.UI_STATE_STOP_LOADING});
         }).catch(error => {
-            this.uiService.loadingStateChanged.next(false);
+            //this.uiService.loadingStateChanged.next(false);
+            this.ngRxStore.dispatch({type:myReducer.UI_STATE_STOP_LOADING});
             this.uiService.showSnackbar(error.message, null, {duration: AuthService.Duration});
         });
     }
 
     login(authData: AuthData) {
-        this.uiService.loadingStateChanged.next(true);
+        //this.uiService.loadingStateChanged.next(true);
+        this.ngRxStore.dispatch({type:myReducer.UI_STATE_START_LOADING});
         this.afAuth.auth.signInWithEmailAndPassword(
             authData.email,
             authData.password
         ).then(result => {
             console.log(result);
-            this.uiService.loadingStateChanged.next(false);
+            //this.uiService.loadingStateChanged.next(false);
+            this.ngRxStore.dispatch({type:myReducer.UI_STATE_STOP_LOADING});
         }).catch(error => {
-            this.uiService.loadingStateChanged.next(false);
+            //this.uiService.loadingStateChanged.next(false);
+            this.ngRxStore.dispatch({type:myReducer.UI_STATE_STOP_LOADING});
             this.uiService.showSnackbar(error.message, null, {duration: AuthService.Duration});
         });
     }

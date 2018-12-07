@@ -1,42 +1,48 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService} from '../../../services/auth.service';
 import { UIService } from '../../../services/ui.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as ngRxReducer from '../../../app.reducer';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loggingIn = false;
+  isLoading$: Observable<boolean>; // ngRx value. By default they end in $
   loadingStateChangedSubscription: Subscription;
 
-  constructor(private authService: AuthService, private uiService: UIService) { }
+  constructor(
+    private authService: AuthService, 
+    private uiService: UIService, 
+    private ngRxStore: Store<{ui: ngRxReducer.State }>
+  ) { }
 
   ngOnInit() {
+    this.isLoading$ = this.ngRxStore.pipe(map(state => state.ui.isLoading));
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email]}),
       password: new FormControl('',
         {validators: [Validators.required]} )
     });
-    this.loadingStateChangedSubscription = this.uiService.loadingStateChanged.subscribe( state => {
+    /* this.loadingStateChangedSubscription = this.uiService.loadingStateChanged.subscribe( state => {
         this.loggingIn = state;
-    });
+    }); */
   }
 
-  ngOnDestroy() {
+  /* ngOnDestroy() {  // Not needed since we moved to ngRx. It automatically handles unsubscribe automatically
     if (this.loadingStateChangedSubscription) {
       this.loadingStateChangedSubscription.unsubscribe();
     }
-  }
+  } */
 
   onSubmit() {
-    // console.log(this.loginForm);
-    this.loggingIn = true;
     this.authService.login({
       email: this.loginForm.value.email,
       password: this.loginForm.value.password
